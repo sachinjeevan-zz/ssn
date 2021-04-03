@@ -1,0 +1,15 @@
+
+
+1. Screening Test ( 3 sections ( 1 section - Aptitude( 10 ), DBMS(10), Java/python( 20 )))
+2. Final Round ( 2 coding question , 20 mcq ( java / python))  // 65%
+
+attempts = Attempt.where(course_id: nil).all
+attempts.each do |attempt|
+    begin
+        contest = attempt.contest
+        attempt[:course_id] = contest.sub_modules.unit.course[:id]
+        attempt.save
+    rescue
+
+    end
+end
