@@ -28,14 +28,52 @@ void insert_heap(struct BHeap* heap,int ele)
     heap->i = heap->i + 1;
 
 }
+void heapify(struct BHeap* heap)
+{
+    int j = heap->i - 1;
+    int parent = j;
+    while(j>=0)
+    {
+        int left = 2*parent+1,right = 2*parent+2,max_ind;
+
+        if(left<heap->i && right<heap->i)
+        {
+            max_ind = heap->A[left]> heap->A[right]?left:right;
+        }
+        else if(left<heap->i)
+        {
+            max_ind = left;
+        }
+        else
+        {
+            j--;
+            parent = j;
+            continue;
+        }
+        if(heap->A[parent]<heap->A[max_ind])
+        {
+            int temp = heap->A[parent];
+            heap->A[parent] = heap->A[max_ind];
+            heap->A[max_ind] = temp;
+            parent = max_ind;
+        }
+        else
+        {
+            j--;
+            parent = j;
+        }
+
+    }
+}
 void print_heap(struct BHeap* heap)
 {
     for(int i=0;i<heap->i;i++)
     {
         printf("%d ",heap->A[i]);
     }
+    printf("\n");
 }
-int extract_max(struct BHeap* heap) // 7    6      // 6    5  //  5     4
+int extract_max(struct BHeap* heap) 
 {
     if(heap->i>0)
     {
@@ -94,16 +132,13 @@ int main()
     {
         int ele ;
         scanf("%d",&ele);
-        insert_heap(heap,ele);
+        heap->A[i] = ele;
+        heap->i = heap->i + 1;
     }
     print_heap(heap);
-    printf("\n");
-    for(int i=0;i<n;i++)
-    {
-        extract_max(heap);
-    }
-    for(int i=0;i<n;i++)
-    {
-        printf("%d ",heap->A[i]);
-    }
+    heapify(heap);
+    print_heap(heap);
+
+
+    
 }
